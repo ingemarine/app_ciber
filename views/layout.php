@@ -39,6 +39,15 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item nav-link text-white" href="/app_ciber/mantenimiento"><i class="ms-lg-0 ms-2 bi bi-plus-circle me-2"></i>OPERACIONES</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">
                     <a href="/menu/" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i>MENÚ</a>
                 </div>
