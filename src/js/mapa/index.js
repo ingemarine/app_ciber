@@ -1,4 +1,5 @@
 import L from 'leaflet';
+import { Dropdown } from 'bootstrap';
 
 // Inicializar el mapa centrado en Guatemala
 const mapa = L.map('mapa', {
@@ -24,7 +25,18 @@ const capaMarcadores = L.featureGroup();
 
 // Array con las coordenadas de los marcadores y sus nombres
 const coordenadas = [
-    { latLng: [14.58028, -90.53083], nombre: "Servicio de Material de Guerra", icono: './images/material.png' },
+
+    {
+        latLng: [14.58028, -90.53083], 
+        nombre: "Servicio de Material de Guerra", 
+        icono: './images/material.png',  
+        imagen: './images/serviciomg.png',  
+        direccion: "11 avenida 17-50 zona 13, Colonia Aurora II",  
+        telefono: "2261-4224"  
+    },
+    
+
+    
     { latLng: [14.61278, -90.51111], nombre: "Primera Brigada de Policía Militar 'Guardia de Honor ", icono: './images/pbgh.png' },
     { latLng: [14.615635, -90.505577], nombre: "Comando de Informática y Tecnología", icono: './images/cit.png' },
     { latLng: [15.69361, -88.62222], nombre: "Astillero Naval De Guatemala", icono: './images/astimar.png' },
@@ -52,7 +64,7 @@ const coordenadas = [
     { latLng: [14.63083, -90.46250], nombre: "Servicio de Sanidad Militar", icono: './images/ssm.png' },
     { latLng: [14.54611, -91.68194], nombre: "Instituto 'Adolfo V Hall' Sur, Retalhuleu" , icono: './images/hall.png'},
     { latLng: [14.55083, -91.55250], nombre: "Cuarta Brigada de Infantería 'General Justo Rufino Barrios', Suchitepequez" , icono: './images/cuarta.png'},
-    { latLng: [15.48333, -90.39667], nombre: "Fábrica de Municiones del Ejército, Cobán, Alta Verapaz" , icono: './images/fme.png'},
+    { latLng: [15.48333, -90.39667], nombre: "Fábrica de Municiones del Ejército,  Cobán, Alta Verapaz" , icono: './images/fme.png'},
     { latLng: [15.48194, -90.40250], nombre: "Comando Regional de Entrenamiento de Operaciones de Mantenimiento de Paz, Cobán, Alta Verapaz", icono: './images/creompaz.png' },
     { latLng: [14.97000, -89.51694], nombre: "Instituto 'Adolfo V Hall' Oriente, Zacapa", icono: './images/hall.png' },
     { latLng: [15.48139, -90.31778], nombre: "Instituto 'Adolfo V Hall' Norte, Cobán, Alta Verapaz" , icono: './images/hall.png' },
@@ -94,9 +106,28 @@ coordenadas.forEach(ubicacion => {
     });
 
 
+    
+
+// L.marker(ubicacion.latLng, { icon: iconoPersonalizado })
+// .bindTooltip(ubicacion.nombre)  // Muestra el nombre al pasar el cursor
+// .addTo(capaMarcadores);
+
+
+//
+const popupContenido = `
+<div>
+    <h5>${ubicacion.nombre}</h5>
+    <img src="${ubicacion.imagen}" alt="${ubicacion.nombre}" width="200" height="100" style="object-fit:cover;">
+    <p><strong>Dirección:</strong> ${ubicacion.direccion}</p>
+    <p><strong>Teléfono:</strong> ${ubicacion.telefono}</p>
+</div>
+`;
+
 L.marker(ubicacion.latLng, { icon: iconoPersonalizado })
 .bindTooltip(ubicacion.nombre)  // Muestra el nombre al pasar el cursor
+.bindPopup(popupContenido)  // Muestra el popup con la información
 .addTo(capaMarcadores);
+
 
 // Añadir la capa de marcadores al mapa
 capaMarcadores.addTo(mapa);

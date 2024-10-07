@@ -36,4 +36,9 @@ class Mantenimiento extends ActiveRecord
         $sql = "SELECT * FROM mantenimientos WHERE nombre_dep = $nombre_dep AND mant_situacion = 1";
         return self::fetchArray($sql);
     }
+    public static function buscar()
+    {
+        $sql = "SELECT * FROM dependencias where dep_situacion = 1";
+        return self::fetchArray($sql);
+    }
 }

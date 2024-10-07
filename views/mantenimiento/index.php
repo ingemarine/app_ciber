@@ -1,3 +1,12 @@
+<?php
+
+use Model\Dependencia;
+
+$dependencia = new Dependencia($_GET);
+$dependencias = $dependencia->buscar()
+?>
+
+
 <div class="row justify-content-center text-center mt-5">
     <form id="formMantenimiento" class="border bg-light shadow rounded p-4 col-lg-6">
         <h1 class="text-center">Registro de Mantenimientos</h1>
@@ -7,11 +16,16 @@
                 <label for="nombre_dep">Dependencia</label>
                 <select class="form-select" name="nombre_dep" id="nombre_dep" class="form-control" required>
                     <option selected>Seleccione...</option>
-                    <!-- Aquí se cargan las dependencias desde la base de datos -->
+                    <?php foreach ($dependencias as $dependencia) : ?>
+                        <option value="<?= $dependencia['id_dep'] ?>">
+                            <?= htmlspecialchars($dependencia['nombre_dep']) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
 
+        <!-- Resto del formulario -->
         <div class="row mb-3">
             <div class="col">
                 <label for="num_op">Número de Operaciones</label>
@@ -48,3 +62,4 @@
 </div>
 
 <script src="<?= asset('./build/js/mantenimiento/index.js') ?>"></script>
+s

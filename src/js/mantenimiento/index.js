@@ -2,6 +2,7 @@ import { Toast, validarFormulario } from "../funciones";
 import Swal from "sweetalert2";
 import DataTable from "datatables.net-bs5";
 import { lenguaje } from "../lenguaje";
+import { Dropdown } from "bootstrap";
 
 const formulario = document.getElementById('formMantenimiento');
 const tabla = document.getElementById('tablaMantenimiento');
