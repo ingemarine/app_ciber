@@ -6,7 +6,7 @@ class Mantenimiento extends ActiveRecord
 {
     protected static $tabla = 'mantenimientos';
     protected static $idTabla = 'id_mant';
-    protected static $columnasDB = ['nombre_dep', 'num_op', 'num_compu', 'num_antivirus', 'mant_situacion'];
+    protected static $columnasDB = ['id_mant', 'nombre_dep', 'num_op', 'num_compu', 'num_antivirus', 'mant_situacion'];
 
     public $id_mant;
     public $nombre_dep;
@@ -27,18 +27,28 @@ class Mantenimiento extends ActiveRecord
 
     public static function obtenerMantenimientos()
     {
-        $sql = "SELECT * FROM mantenimientos WHERE mant_situacion = 1";
+        $sql = "SELECT m.id_mant, d.nombre_dep, m.num_op, m.num_compu, m.num_antivirus
+                FROM mantenimientos m
+                INNER JOIN dependencias d ON m.nombre_dep = d.id_dep
+                WHERE m.mant_situacion = 1";
         return self::fetchArray($sql);
     }
 
     public static function buscarPorDependencia($nombre_dep)
     {
-        $sql = "SELECT * FROM mantenimientos WHERE nombre_dep = $nombre_dep AND mant_situacion = 1";
-        return self::fetchArray($sql);
+        $sql = "SELECT * FROM mantenimientos WHERE nombre_dep = :nombre_dep AND mant_situacion = 1";
+        $query = self::$db->prepare($sql);
+        $query->bindParam(':nombre_dep', $nombre_dep);
+        $query->execute();
+        return $query->fetchAll(\PDO::FETCH_ASSOC);
     }
-    public static function buscar()
+
+    public static function obtenerMantenimientosConDependencias()
     {
-        $sql = "SELECT * FROM dependencias where dep_situacion = 1";
+        $sql = "SELECT d.nombre_dep, m.num_op, m.num_compu, m.num_antivirus, d.latitud, d.longitud
+                FROM mantenimientos m
+                INNER JOIN dependencias d ON m.nombre_dep = d.id_dep
+                WHERE m.mant_situacion = 1";
         return self::fetchArray($sql);
     }
 }

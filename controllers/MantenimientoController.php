@@ -11,6 +11,7 @@ class MantenimientoController {
     public static function index(Router $router){
         $router->render('mantenimiento/index',[]);
     }
+
     public static function find(Router $router)
     {
         $mantenimientos = Mantenimiento::obtenerMantenimientos();
@@ -19,9 +20,6 @@ class MantenimientoController {
         ]);
     }
 
-
-    //obtner dependencias
-    
     public static function guardarAPI()
     {
         $_POST['nombre_dep'] = htmlspecialchars($_POST['nombre_dep']);
@@ -77,6 +75,9 @@ class MantenimientoController {
 
         try {
             $mantenimiento = Mantenimiento::find($id);
+            if (!$mantenimiento) {
+                throw new Exception("Mantenimiento no encontrado");
+            }
             $mantenimiento->sincronizar($_POST);
             $mantenimiento->actualizar();
             http_response_code(200);
@@ -99,6 +100,9 @@ class MantenimientoController {
         $id = filter_var($_POST['id_mant'], FILTER_SANITIZE_NUMBER_INT);
         try {
             $mantenimiento = Mantenimiento::find($id);
+            if (!$mantenimiento) {
+                throw new Exception("Mantenimiento no encontrado");
+            }
             $mantenimiento->sincronizar(['mant_situacion' => 0]);
             $mantenimiento->actualizar();
             http_response_code(200);
@@ -114,5 +118,10 @@ class MantenimientoController {
                 'detalle' => $e->getMessage(),
             ]);
         }
+    }
+
+    public static function obtenerDatosMapaAPI() {
+        $mantenimientos = Mantenimiento::obtenerMantenimientosConDependencias();
+        echo json_encode($mantenimientos); // Enviar los datos como JSON al frontend
     }
 }
